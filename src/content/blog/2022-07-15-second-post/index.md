@@ -1,8 +1,8 @@
 ---
-title: 'Second post - Devolio is awesome'
+title: 'Second post - ov172xcr is awesome'
 slug: 'second-post'
 description: 'Lorem ipsum dolor sit amet'
-tags: ["Devolio", "Dummy Tag"]
+tags: ["ov172xcr", "Dummy Tag"]
 pubDate: 'Jul 15 2022'
 coverImage: './blog-placeholder-2.jpg'
 ---
