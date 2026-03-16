@@ -10,12 +10,25 @@ import { projects } from './projects/projects';
 import ProjectList from '../components/ProjectList.astro';
 import PostItem from '../components/PostItem.astro';
 
+// microCMS からデータを取得する関数とブログカードコンポーネントをインポート
+import { getBlogs } from '../lib/microcms';
+import BlogCard from '../components/BlogCard.astro';
+
 type BlogPost = CollectionEntry<'blog'>;
 
 const top6Projects = projects.slice(0, 6);
 const posts = (await getCollection('blog'))
 	.sort((a: BlogPost, b: BlogPost) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf())
 	.slice(0, 5);
+
+// microCMS から最新3件の記事を取得
+let blogs: any[] = [];
+try {
+	const response = await getBlogs({ limit: 3, orders: '-date' });
+	blogs = response.contents;
+} catch (error) {
+	console.error('microCMS からのデータ取得に失敗しました:', error);
+}
 ---
 
 <BaseLayout title={SITE_TITLE + ' - ' + SITE_TAGLINE} description={SITE_DESCRIPTION}>
@@ -52,13 +65,19 @@ const posts = (await getCollection('blog'))
 				<div class="w-16 h-1 bg-accent mx-auto mt-4 rounded-full"></div>
 			</div>
 
-			{/* 記事カードのグリッド */}
+			{/* microCMS から取得した記事をカード形式で表示 */}
 			{
-				posts.length > 0 ? (
+				blogs.length > 0 ? (
 					<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-						{/* posts 配列をループして各記事のカードを表示 */}
-						{posts.map((post) => (
-							<PostItem post={post} />
+						{blogs.map((blog) => (
+							<BlogCard
+								title={blog.title}
+								slug={blog.slug}
+								description={blog.description}
+								date={blog.date}
+								tag={blog.tag || []}
+								coverimage={blog.coverimage}
+							/>
 						))}
 					</div>
 				) : (
@@ -68,7 +87,7 @@ const posts = (await getCollection('blog'))
 							📝 記事を準備中です...
 						</p>
 						<p class="text-sm text-text-sub mt-2">
-							記事を追加してください
+							microCMS にブログ記事を追加してください
 						</p>
 					</div>
 				)
@@ -76,7 +95,7 @@ const posts = (await getCollection('blog'))
 
 			{/* 「もっと見る」ボタン */}
 			{
-				posts.length > 0 && (
+				blogs.length > 0 && (
 					<div class="text-center mt-12">
 						<a
 							href="/blog"
