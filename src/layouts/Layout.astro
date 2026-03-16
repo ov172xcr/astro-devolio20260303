@@ -19,11 +19,6 @@ import "../styles/global.css";
 // 共通コンポーネントの読み込み
 // Header と Footer はすべてのページで表示されるため、
 // Layout に組み込んでおきます
-// これがあるとmicroCMS Blogのヘッダーが表示されてしまう
-// import Header from "../components/Header.astro";
-
-// これがあるとmicroCMS Blogのフッターが表示されてしまう
-// import Footer from "../components/Footer.astro";
 
 // ============================================
 // Props（プロパティ）の型定義
@@ -86,8 +81,7 @@ const { title, description = "Astro + microCMS で作るブログサイト" } =
     /* flex flex-col: フレックスボックスで縦方向に並べる（フッターを最下部に固定するため） */
   }
   <body class="bg-primary min-h-screen font-sans flex flex-col">
-    {/* ヘッダー（ナビゲーション）*/}
-    <Header />
+
 
     {/* メインコンテンツ領域 */}
     {/* flex-1: 残りのスペースを全て使う（フッターを下に押し下げる） */}
@@ -98,7 +92,6 @@ const { title, description = "Astro + microCMS で作るブログサイト" } =
       <slot />
     </main>
 
-    {/* フッター */}
-    <Footer />
+
   </body>
 </html>
