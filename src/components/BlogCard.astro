@@ -1,0 +1,136 @@
+---
+// ============================================
+// BlogCard.astro - ブログ記事カードコンポーネント
+// ============================================
+// ブログ一覧やTOPページで使用する記事カードです。
+// Goodpatch Blog を参考に、以下の要素を含みます：
+// - カバー画像（サムネイル）
+// - タグバッジ
+// - 日付
+// - タイトル
+// - 説明文
+//
+// 【Astro コンポーネントの再利用】
+// このコンポーネントは Props を受け取り、
+// 一覧ページなどから繰り返し呼び出されます。
+// 例: <BlogCard title="記事タイトル" slug="my-post" ... />
+// ============================================
+
+// Props（このコンポーネントに渡されるデータ）の型定義
+interface Props {
+    title: string; // 記事タイトル
+    slug: string; // スラッグ（URLに使う文字列）
+    description: string; // 記事の説明文
+    date: string; // 投稿日付
+    tag: string[] | string | null; // タグ（配列・文字列・nullの可能性あり）
+    coverimage?: {
+        // カバー画像（任意）
+        url: string; //   画像のURL
+        width?: number; //   画像の幅
+        height?: number; //   画像の高さ
+    };
+}
+
+// Astro.props で親コンポーネントから渡された値を取得
+const { title, slug, description, date, tag, coverimage } = Astro.props;
+
+// ============================================
+// タグを配列に正規化する処理
+// ============================================
+// microCMS の「タグ」フィールドは設定によって
+// 文字列（単一選択）や配列（複数選択）で返る場合があります。
+// どのケースでも安全に .map() できるよう、配列に統一します。
+const tagArray: string[] = Array.isArray(tag) ? tag : tag ? [tag] : [];
+
+// 日付をフォーマットする関数
+// "2024-01-15" → "2024.01.15" のように変換
+const formatDate = (dateStr: string) => {
+    const d = new Date(dateStr);
+    return `${d.getFullYear()}.${String(d.getMonth() + 1).padStart(2, "0")}.${String(d.getDate()).padStart(2, "0")}`;
+};
+---
+
+{
+    /* ============================================
+    カードのHTML
+    ============================================
+    <a> タグでカード全体をリンクにしています。
+    /blog/{slug} で個別記事ページへ遷移します。
+
+    【Tailwind クラスの解説】
+    group: 子要素のホバー効果を制御するためのグループ化
+    bg-card: 白い背景色（@theme で定義）
+    rounded-2xl: 大きめの角丸
+    overflow-hidden: はみ出す部分を隠す（画像の角丸用）
+    shadow-md: 中程度の影
+    hover:shadow-xl: ホバー時に影を大きく
+    hover:-translate-y-1: ホバー時に上に少し浮く
+    transition-all duration-300: 変化をスムーズに（0.3秒）
+    ============================================ */
+}
+<a
+    href={`/blog/${slug}`}
+    class="group block bg-card rounded-2xl overflow-hidden shadow-md hover:shadow-xl hover:-translate-y-1 transition-all duration-300"
+>
+    {/* ===== カバー画像部分 ===== */}
+    {/* aspect-video: 16:9 のアスペクト比 */}
+    {/* overflow-hidden: 画像の拡大がはみ出さないように */}
+    <div class="aspect-video overflow-hidden bg-primary-light/30">
+        {
+            coverimage ? (
+                /* microCMS から取得した画像を表示 */
+                /* object-cover: 画像がコンテナを完全に覆うように拡大／切り抜き */
+                /* group-hover:scale-105: カード全体にホバーすると画像が少し拡大 */
+                <img
+                    src={coverimage.url}
+                    alt={title}
+                    class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                    loading="lazy"
+                />
+            ) : (
+                /* 画像がない場合のプレースホルダー */
+                <div class="w-full h-full flex items-center justify-center text-4xl">
+                    📝
+                </div>
+            )
+        }
+    </div>
+
+    {/* ===== カード下部のテキスト情報 ===== */}
+    <div class="p-5">
+        {/* タグと日付の行 */}
+        {/* flex flex-wrap: 横並びで折り返し可能 */}
+        {/* gap-2: 要素間のスペース */}
+        <div class="flex flex-wrap items-center gap-2 mb-3">
+            {/* タグバッジ */}
+            {/* Goodpatch Blog のようなカラフルなタグバッジ */}
+            {
+                tagArray.length > 0 &&
+                    tagArray.map((t) => (
+                        <span class="text-xs font-medium px-2.5 py-0.5 rounded-full bg-primary/30 text-primary-dark">
+                            #{t}
+                        </span>
+                    ))
+            }
+
+            {/* 日付表示 */}
+            <span class="text-xs text-text-sub ml-auto">
+                {formatDate(date)}
+            </span>
+        </div>
+
+        {/* 記事タイトル */}
+        {/* line-clamp-2: 最大2行で切り詰め（...で省略） */}
+        <h3
+            class="text-lg font-bold text-text-main mb-2 line-clamp-2 group-hover:text-primary-dark transition-colors"
+        >
+            {title}
+        </h3>
+
+        {/* 説明文 */}
+        {/* line-clamp-2: 最大2行で切り詰め */}
+        <p class="text-sm text-text-sub line-clamp-2">
+            {description}
+        </p>
+    </div>
+</a>

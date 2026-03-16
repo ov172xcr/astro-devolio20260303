@@ -1,0 +1,101 @@
+---
+// ============================================
+// Layout.astro - 共通レイアウトコンポーネント
+// ============================================
+// すべてのページで共通して使われる HTML の骨格です。
+// <html>, <head>, <body> タグをここで定義し、
+// 各ページの内容は <slot /> の位置に挿入されます。
+//
+// 【Astro コンポーネントの仕組み】
+// --- (フェンス) で囲まれた部分がサーバーサイドの JavaScript です。
+// ここで props を受け取ったり、データを取得したりします。
+// フェンスの外側が HTML テンプレートです。
+// ============================================
+
+// グローバルCSS（Tailwind CSS + カスタムスタイル）を読み込み
+// この1行で、全ページに Tailwind のクラスとカスタムスタイルが適用されます
+import "../styles/global.css";
+
+// 共通コンポーネントの読み込み
+// Header と Footer はすべてのページで表示されるため、
+// Layout に組み込んでおきます
+import Header from "../components/Header.astro";
+import Footer from "../components/Footer.astro";
+
+// ============================================
+// Props（プロパティ）の型定義
+// ============================================
+// このコンポーネントを使う側から渡されるデータの型を定義します。
+// 例: <Layout title="ブログ一覧" description="最新の記事一覧">
+interface Props {
+  title: string; // ページタイトル（<title>タグに使用）
+  description?: string; // ページの説明文（SEO用のmetaタグに使用、任意）
+}
+
+// Astro.props で、親コンポーネントから渡された値を取得します
+const { title, description = "Astro + microCMS で作るブログサイト" } =
+  Astro.props;
+---
+
+{
+  /* ============================================
+    HTML テンプレート部分
+    ============================================
+    ここから下が実際にブラウザに出力される HTML です。
+    Tailwind CSS のクラスを使ってスタイリングします。
+    ============================================ */
+}
+
+<html lang="ja">
+  <head>
+    {/* 文字エンコーディング（日本語を正しく表示するため） */}
+    <meta charset="UTF-8" />
+
+    {/* レスポンシブ対応（スマホでの表示を正しくするため） */}
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    {/* ファビコン（ブラウザタブに表示される小さなアイコン） */}
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+
+    {/* Google Fonts の読み込み */}
+    {/* Noto Sans JP: 日本語に最適化されたフォント */}
+    {/* Inter: 英数字に適したモダンなフォント */}
+    {/* preconnect: フォント配信サーバーへの事前接続（読み込み高速化） */}
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Noto+Sans+JP:wght@300;400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+
+    {/* SEO: ページの説明文（検索結果に表示される） */}
+    <meta name="description" content={description} />
+
+    {/* ページタイトル（ブラウザタブに表示される） */}
+    <title>{title} | microCMS Blog</title>
+  </head>
+
+  {/* body全体に背景色 #a2d7dd を適用 */}
+  {/* bg-primary: global.css の @theme で定義したカスタムカラー */}
+  {/* min-h-screen: 最小の高さを画面いっぱいに */}
+  {/* font-sans: Noto Sans JP フォントを適用 */}
+  {
+    /* flex flex-col: フレックスボックスで縦方向に並べる（フッターを最下部に固定するため） */
+  }
+  <body class="bg-primary min-h-screen font-sans flex flex-col">
+    {/* ヘッダー（ナビゲーション）*/}
+    <Header />
+
+    {/* メインコンテンツ領域 */}
+    {/* flex-1: 残りのスペースを全て使う（フッターを下に押し下げる） */}
+    {/* pt-16: ヘッダーの高さ分だけ上に余白を取る（固定ヘッダー対応） */}
+    <main class="flex-1 pt-16">
+      {/* <slot /> は各ページのコンテンツが挿入される場所 */}
+      {/* 例えば index.astro の中身がここに入ります */}
+      <slot />
+    </main>
+
+    {/* フッター */}
+    <Footer />
+  </body>
+</html>
