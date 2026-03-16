@@ -53,24 +53,12 @@ const posts = (await getCollection('blog'))
 			</div>
 
 			{/* 記事カードのグリッド */}
-			{/* grid: CSSグリッドレイアウト */}
 			{
-				/* grid-cols-1 md:grid-cols-2 lg:grid-cols-3: レスポンシブに列数を変更 */
-			}
-			{/* モバイル: 1列 → タブレット: 2列 → デスクトップ: 3列 */}
-			{
-				blogs.length > 0 ? (
+				posts.length > 0 ? (
 					<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-						{/* blogs 配列をループして各記事のカードを表示 */}
-						{blogs.map((blog) => (
-							<BlogCard
-								title={blog.title}
-								slug={blog.slug}
-								description={blog.description}
-								date={blog.date}
-								tag={blog.tag || []}
-								coverimage={blog.coverimage}
-							/>
+						{/* posts 配列をループして各記事のカードを表示 */}
+						{posts.map((post) => (
+							<PostItem post={post} />
 						))}
 					</div>
 				) : (
@@ -80,7 +68,7 @@ const posts = (await getCollection('blog'))
 							📝 記事を準備中です...
 						</p>
 						<p class="text-sm text-text-sub mt-2">
-							microCMS にブログ記事を追加してください
+							記事を追加してください
 						</p>
 					</div>
 				)
@@ -88,7 +76,7 @@ const posts = (await getCollection('blog'))
 
 			{/* 「もっと見る」ボタン */}
 			{
-				blogs.length > 0 && (
+				posts.length > 0 && (
 					<div class="text-center mt-12">
 						<a
 							href="/blog"
