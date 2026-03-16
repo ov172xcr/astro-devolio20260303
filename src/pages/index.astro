@@ -37,24 +37,52 @@ const posts = (await getCollection('blog'))
 			</div>
 			<Image src={Ava} alt='クロスカントリーフライトのイメージ' width={500} loading='eager' class='rounded-3xl rotate-3 mx-4 md:mx-0' />
 		</div>
-		<main>
-			<div class='mt-6 mb-12'>
-				<div class='flex justify-between gap-2 border-b mb-1 dark:border-b-zinc-700'>
-					<h2 class='text-lg font-bold mb-3'>Recent Posts</h2>
-					<a href='/posts/' class='inline-block py-2 underline dark:prose-invert'>All posts &raquo;</a>
+	<section class="py-20 px-4">
+		<div class="max-w-4xl mx-auto">
+			<div
+				class="bg-white/50 backdrop-blur-sm rounded-3xl p-10 md:p-14 shadow-lg"
+			>
+				<div class="text-center mb-8">
+					<p
+						class="text-primary-dark font-medium text-sm tracking-widest uppercase mb-2"
+					>
+						About This Blog
+					</p>
+					<h2 class="text-3xl font-bold text-text-main">
+						このブログについて
+					</h2>
+					<div class="w-16 h-1 bg-accent mx-auto mt-4 rounded-full">
+					</div>
 				</div>
-				<div>
-					{posts.map((post: BlogPost) => <PostItem post={post} />)}
+				<p
+					class="text-text-main text-lg leading-relaxed text-center mb-8"
+				>
+					このサイトは、ヘッドレスCMS「<strong>microCMS</strong>」と
+					モダンフレームワーク「<strong>Astro</strong
+					>」を使って構築された 実習用のブログサイトです。<br />
+					Tailwind CSS によるスタイリングと、 JavaScript によるAPI連携の実践的な学びを提供します。
+				</p>
+
+				{/* 技術アイコン */}
+				<div class="flex justify-center gap-6 flex-wrap">
+					<div
+						class="flex items-center gap-2 bg-primary/20 px-4 py-2 rounded-full text-sm font-medium text-text-main"
+					>
+						🚀 Astro
+					</div>
+					<div
+						class="flex items-center gap-2 bg-primary/20 px-4 py-2 rounded-full text-sm font-medium text-text-main"
+					>
+						📦 microCMS
+					</div>
+					<div
+						class="flex items-center gap-2 bg-primary/20 px-4 py-2 rounded-full text-sm font-medium text-text-main"
+					>
+						🎨 Tailwind CSS
+					</div>
 				</div>
-				<div class='text-right'></div>
 			</div>
-			<div>
-				<div class='flex justify-between gap-2 mb-1'>
-					<h2 class='text-lg font-bold mb-3'>My Projects</h2>
-					<a href='/projects/' class='inline-block py-2 underline dark:prose-invert'>All projects &raquo;</a>
-				</div>
-				<ProjectList projects={top6Projects} />
-			</div>
-		</main>
+		</div>
+	</section>
 	</div>
 </BaseLayout>
