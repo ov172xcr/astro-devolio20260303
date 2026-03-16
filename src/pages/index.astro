@@ -27,7 +27,7 @@ const posts = (await getCollection('blog'))
 					<div class='text-lg'>
 						<p>
 							私は日本在住のWebデザイナーです。<br
-							/>若い頃はスカイスポーツのハンググライダーに夢中になり、仲間と競い合って特に遠くまで飛ぶことに関心がありました。いつの日かクロスカントリー（XC）フライトの日本記録（当時172Km）を更新したいと思っていました。
+							/>若い頃はスカイスポーツのハンググライダーに夢中になり、仲間と競い合って特に遠くまで飛ぶことに関心がありました。いつかクロスカントリー（XC）フライトの日本記録（当時172Km）を更新したいと思っていました。
 						</p>
 						<p>
 							フロントエンド開発も学習中です。Astroとtailwind、microCMSの組み合わせに将来性感じています。GitHubを含め、解らない事ばかりですが、地道に取り組んでいます。
@@ -37,85 +37,6 @@ const posts = (await getCollection('blog'))
 			</div>
 			<Image src={Ava} alt='クロスカントリーフライトのイメージ' width={500} loading='eager' class='rounded-3xl rotate-3 mx-4 md:mx-0' />
 		</div>
-		
-	<section class="py-20 px-4">
-		<div class="max-w-6xl mx-auto">
-			{/* セクションタイトル */}
-			<div class="text-center mb-12 animate-slide-up">
-				<p
-					class="text-primary-dark font-medium text-sm tracking-widest uppercase mb-2"
-				>
-					Latest Articles
-				</p>
-				<h2 class="text-3xl md:text-4xl font-bold text-text-main">
-					最新の記事
-				</h2>
-				<div class="w-16 h-1 bg-accent mx-auto mt-4 rounded-full"></div>
-			</div>
-
-			{/* 記事カードのグリッド */}
-			{/* grid: CSSグリッドレイアウト */}
-			{
-				/* grid-cols-1 md:grid-cols-2 lg:grid-cols-3: レスポンシブに列数を変更 */
-			}
-			{/* モバイル: 1列 → タブレット: 2列 → デスクトップ: 3列 */}
-			{
-				blogs.length > 0 ? (
-					<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-						{/* blogs 配列をループして各記事のカードを表示 */}
-						{blogs.map((blog) => (
-							<BlogCard
-								title={blog.title}
-								slug={blog.slug}
-								description={blog.description}
-								date={blog.date}
-								tag={blog.tag || []}
-								coverimage={blog.coverimage}
-							/>
-						))}
-					</div>
-				) : (
-					/* 記事がない場合のフォールバック表示 */
-					<div class="text-center py-12 bg-white/40 rounded-2xl">
-						<p class="text-xl text-text-sub">
-							📝 記事を準備中です...
-						</p>
-						<p class="text-sm text-text-sub mt-2">
-							microCMS にブログ記事を追加してください
-						</p>
-					</div>
-				)
-			}
-
-			{/* 「もっと見る」ボタン */}
-			{
-				blogs.length > 0 && (
-					<div class="text-center mt-12">
-						<a
-							href="/blog"
-							class="inline-flex items-center gap-2 border-2 border-text-main text-text-main font-semibold px-8 py-3 rounded-full hover:bg-text-main hover:text-white transition-all duration-300"
-						>
-							すべての記事を見る
-							<svg
-								class="w-4 h-4"
-								fill="none"
-								stroke="currentColor"
-								viewBox="0 0 24 24"
-							>
-								<path
-									stroke-linecap="round"
-									stroke-linejoin="round"
-									stroke-width="2"
-									d="M9 5l7 7-7 7"
-								/>
-							</svg>
-						</a>
-					</div>
-				)
-			}
-		</div>
-	</section>
-			
 		<main>
 			<div class='mt-6 mb-12'>
 				<div class='flex justify-between gap-2 border-b mb-1 dark:border-b-zinc-700'>
