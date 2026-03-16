@@ -19,8 +19,11 @@ import "../styles/global.css";
 // 共通コンポーネントの読み込み
 // Header と Footer はすべてのページで表示されるため、
 // Layout に組み込んでおきます
-import Header from "../components/Header.astro";
-import Footer from "../components/Footer.astro";
+// これがあるとmicroCMS Blogのヘッダーが表示されてしまう
+// import Header from "../components/Header.astro";
+
+// これがあるとmicroCMS Blogのフッターが表示されてしまう
+// import Footer from "../components/Footer.astro";
 
 // ============================================
 // Props（プロパティ）の型定義
