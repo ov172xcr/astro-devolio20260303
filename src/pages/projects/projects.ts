@@ -12,6 +12,12 @@ export interface Project {
 
 export const projects: Project[] = [
   {
+    name: 'テストプロジェクト',
+    description: 'サイト動作分析のためのテストプロジェクトです。',
+    demoLink: 'https://jhf.hangpara.or.jp/hgc/10rulebook/gap_scoring/gap2000exp_j.htm',
+    tags: ['test']
+  },
+  {
     name: 'Devaradise.com',
     description: 'A blog that sharing web development resources and tutorials',
     demoLink: 'https://devaradise.com',
