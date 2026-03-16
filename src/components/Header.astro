@@ -1,0 +1,156 @@
+---
+// ============================================
+// Header.astro - ヘッダー（ナビゲーション）コンポーネント
+// ============================================
+// サイト上部に固定表示されるナビゲーションバーです。
+// ロゴとページリンクを含みます。
+//
+// 【デザインポイント】
+// - 半透明（backdrop-blur）で背景がぼやけて見えるガラスモーフィズム効果
+// - モバイル時はハンバーガーメニューに切り替え
+// - hanahana.me を参考にしたシンプルで上品なデザイン
+// ============================================
+
+// ナビゲーションリンクの定義
+// { label: 表示テキスト, href: リンク先URL }
+const navLinks = [
+    { label: "TOP", href: "/" },
+    { label: "ブログ", href: "/blog" },
+    { label: "自己紹介", href: "/about" },
+    { label: "マニュアル", href: "/manual" },
+];
+---
+
+{
+    /* ============================================
+    ヘッダーのHTML
+    ============================================
+    fixed: 画面上部に固定
+    top-0 left-0 right-0: 上・左・右に張り付く
+    z-50: 他の要素より手前に表示（重なり順）
+    bg-white/80: 白色を80%の透明度で表示
+    backdrop-blur-md: 背景をぼかすガラス効果
+    ============================================ */
+}
+<header
+    class="fixed top-0 left-0 right-0 z-50 bg-white/80 backdrop-blur-md shadow-sm"
+>
+    {/* max-w-6xl: 最大幅を制限してコンテンツを中央に */}
+    {/* mx-auto: 左右の余白を自動で均等に（中央寄せ） */}
+    {/* px-4: 左右のパディング */}
+    {/* h-16: ヘッダーの高さ */}
+    {/* flex items-center justify-between: 横並びで左右に分散配置 */}
+    <nav class="max-w-6xl mx-auto px-4 h-16 flex items-center justify-between">
+        {/* ===== ロゴ部分 ===== */}
+        {/* text-xl font-bold: 大きく太い文字 */}
+        {/* text-text-main: メインテキスト色（#2d3748） */}
+        {/* hover:text-primary-dark: ホバー時に色を変える */}
+        {/* transition-colors: 色の変化をスムーズに */}
+        <a
+            href="/"
+            class="text-xl font-bold text-text-main hover:text-primary-dark transition-colors duration-300"
+        >
+            {/* 🌿 の絵文字でサイトの雰囲気を演出 */}
+            <span class="text-2xl">🌿</span> microCMS Blog
+        </a>
+
+        {/* ===== デスクトップ用ナビゲーション ===== */}
+        {/* hidden md:flex: モバイルでは非表示、md（768px以上）で表示 */}
+        {/* gap-8: リンク間のスペース */}
+        <ul class="hidden md:flex items-center gap-8">
+            {/* navLinks 配列をループして各リンクを生成 */}
+            {
+                /* .map() は配列の各要素に対して処理を行う JavaScript のメソッド */
+            }
+            {
+                navLinks.map((link) => (
+                    <li>
+                        <a
+                            href={link.href}
+                            class="text-text-main font-medium hover:text-primary-dark transition-colors duration-300 relative group"
+                        >
+                            {link.label}
+                            {/* 下線アニメーション: ホバー時に下線が左から右に伸びる */}
+                            {/* absolute bottom-0: 文字の下部に配置 */}
+                            {/* w-0 group-hover:w-full: 通常は幅0、ホバーで幅100% */}
+                            <span class="absolute -bottom-1 left-0 w-0 h-0.5 bg-primary-dark group-hover:w-full transition-all duration-300" />
+                        </a>
+                    </li>
+                ))
+            }
+        </ul>
+
+        {/* ===== モバイル用ハンバーガーボタン ===== */}
+        {/* md:hidden: デスクトップ（768px以上）では非表示 */}
+        {/* id="mobile-menu-btn": JavaScriptからこのボタンを参照するためのID */}
+        <button
+            id="mobile-menu-btn"
+            class="md:hidden p-2 text-text-main hover:text-primary-dark transition-colors"
+            aria-label="メニューを開く"
+        >
+            {/* ハンバーガーアイコン（3本線）をSVGで描画 */}
+            <svg
+                class="w-6 h-6"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+            >
+                <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    d="M4 6h16M4 12h16M4 18h16"></path>
+            </svg>
+        </button>
+    </nav>
+
+    {/* ===== モバイル用メニュー（初期状態は非表示）===== */}
+    {/* hidden: デフォルトで非表示（JavaScriptで表示を切り替え） */}
+    <div
+        id="mobile-menu"
+        class="hidden md:hidden bg-white/95 backdrop-blur-md border-t border-gray-100"
+    >
+        <ul class="flex flex-col py-4">
+            {
+                navLinks.map((link) => (
+                    <li>
+                        <a
+                            href={link.href}
+                            class="block px-6 py-3 text-text-main hover:bg-primary-light/30 transition-colors"
+                        >
+                            {link.label}
+                        </a>
+                    </li>
+                ))
+            }
+        </ul>
+    </div>
+</header>
+
+{
+    /* ============================================
+    モバイルメニューの開閉スクリプト
+    ============================================
+    <script> タグ内の JavaScript はブラウザ側で実行されます。
+    Astro のフロントマター（---）内のコードはビルド時に実行されますが、
+    <script> タグのコードはクライアント（ブラウザ）側で動作します。
+    ============================================ */
+}
+<script>
+    // ============================================
+    // モバイルメニューの開閉処理
+    // ============================================
+
+    // DOM要素を取得
+    // document.getElementById() で HTML 要素を JavaScript から参照できます
+    const menuBtn = document.getElementById("mobile-menu-btn");
+    const mobileMenu = document.getElementById("mobile-menu");
+
+    // ボタンクリック時の処理を登録
+    // addEventListener("click", ...) でクリックイベントを監視します
+    menuBtn?.addEventListener("click", () => {
+        // classList.toggle("hidden") で "hidden" クラスの追加/削除を切り替え
+        // hidden クラスがあれば削除（メニュー表示）、なければ追加（メニュー非表示）
+        mobileMenu?.classList.toggle("hidden");
+    });
+</script>

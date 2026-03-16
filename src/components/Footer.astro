@@ -1,0 +1,90 @@
+---
+// ============================================
+// Footer.astro - フッターコンポーネント
+// ============================================
+// サイト下部に表示されるフッターです。
+// コピーライトと各ページへのリンクを含みます。
+//
+// 【ポイント】
+// - シンプルで上品なデザイン
+// - レスポンシブ対応（モバイルでは縦並び）
+// ============================================
+
+// 現在の西暦を取得（コピーライト表示用）
+const currentYear = new Date().getFullYear();
+---
+
+{
+    /* ============================================
+    フッターのHTML
+    ============================================
+    bg-white/60: 白色60%透明
+    backdrop-blur-sm: 軽いぼかし効果
+    border-t: 上部に細い線
+    mt-auto: マージン上部を自動で（フレックスで最下部に配置）
+    ============================================ */
+}
+<footer class="bg-white/60 backdrop-blur-sm border-t border-white/50 mt-auto">
+    <div class="max-w-6xl mx-auto px-4 py-10">
+        {/* 上部: ロゴとナビゲーション */}
+        {
+            /* flex flex-col md:flex-row: モバイルは縦並び、デスクトップは横並び */
+        }
+        <div
+            class="flex flex-col md:flex-row justify-between items-center gap-6 mb-8"
+        >
+            {/* ロゴ */}
+            <a
+                href="/"
+                class="text-lg font-bold text-text-main hover:text-primary-dark transition-colors"
+            >
+                <span class="text-xl">🌿</span> microCMS Blog
+            </a>
+
+            {/* フッターナビゲーション */}
+            <nav class="flex gap-6 text-sm">
+                <a
+                    href="/"
+                    class="text-text-sub hover:text-text-main transition-colors"
+                    >TOP</a
+                >
+                <a
+                    href="/blog"
+                    class="text-text-sub hover:text-text-main transition-colors"
+                    >ブログ</a
+                >
+                <a
+                    href="/about"
+                    class="text-text-sub hover:text-text-main transition-colors"
+                    >自己紹介</a
+                >
+                <a
+                    href="/manual"
+                    class="text-text-sub hover:text-text-main transition-colors"
+                    >マニュアル</a
+                >
+            </nav>
+        </div>
+
+        {/* 下部: コピーライト */}
+        {/* border-t: 上部に細い区切り線 */}
+        <div class="border-t border-gray-200 pt-6 text-center">
+            <p class="text-sm text-text-sub">
+                &copy; {currentYear} microCMS Blog. Built with
+                <a
+                    href="https://astro.build"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    class="text-primary-dark hover:underline">Astro</a
+                >
+                &
+                <a
+                    href="https://microcms.io"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    class="text-primary-dark hover:underline">microCMS</a
+                >
+            </p>
+        </div>
+    </div>
+</footer>
